@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>유진아</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pretendard', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #f4ebff, #e6d8ff);
+      color: #2a2235;
+      overflow-x: hidden;
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 60px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .fade {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 1.2s ease;
+    }
+
+    .fade.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    p {
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-top: 24px;
+      color: #4a3f60;
+      white-space: pre-line;
+    }
+
+    .typing {
+      border-right: 2px solid #9a7fd1;
+      display: inline-block;
+      animation: blinkCursor 0.8s infinite;
+    }
+
+    @keyframes blinkCursor {
+      50% { border-color: transparent; }
+    }
+
+    button {
+      margin-top: 52px;
+      padding: 18px 38px;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 999px;
+      background: #b79cff;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(183, 156, 255, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(183, 156, 255, 0.6);
+    }
+
+    /* ===== 엔딩 ===== */
+    #ending {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, #efe6ff, #d7c4ff);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .ending-text {
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: #4a347a;
+      animation: softBlink 2.2s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    @keyframes softBlink {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+
+    .heart {
+      font-size: 2.2rem;
+      animation: heartPulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes heartPulse {
+      0% { transform: scale(0.9); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(0.9); }
+    }
+
+    /* 떠오르는 하트 */
+    .floating {
+      position: absolute;
+      font-size: 1.4rem;
+      animation: floatUp 4s linear forwards;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+      to {
+        transform: translateY(-120vh) scale(1.6);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1 -->
+  <section>
+    <div class="fade">
+      <h1>안녕?<br>유진아,</h1>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="fade">
+      <p id="typingText" class="typing"></p>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="fade">
+      <h1>이 말은 꼭 해야 했어</h1>
+      <button onclick="startEnding()">눌러바</button>
+    </div>
+  </section>
+
+  <!-- 엔딩 -->
+  <div id="ending">
+    <div class="ending-text">
+      <span class="heart">💜</span>
+      내가 많이 좋아해
+      <span class="heart">💜</span>
+    </div>
+  </div>
+
+  <script>
+    // fade
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    });
+    document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+    // 타이핑 문구
+    const text = [
+      "혼자 두게 해서 미안해.",
+      "그때는 잘 몰랐어.",
+      "네가 얼마나 외로웠는지.",
+      "",
+      "이젠 혼자 두지 않을게.",
+      "네가 힘들 때도",
+      "괜찮을 때도",
+      "네 옆에 있을게.",
+      "",
+      "💜"
+    ];
+
+    let line = 0, char = 0;
+    const typingEl = document.getElementById("typingText");
+
+    function typing() {
+      if (line < text.length) {
+        if (char < text[line].length) {
+          typingEl.textContent += text[line][char++];
+          setTimeout(typing, 55);
+        } else {
+          typingEl.textContent += "\n";
+          line++; char = 0;
+          setTimeout(typing, 500);
+        }
+      }
+    }
+    typing();
+
+    function startEnding() {
+      const ending = document.getElementById("ending");
+      ending.style.display = "flex";
+
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "floating";
+        heart.textContent = "💜";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.bottom = "-20px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }, 350);
+    }
+  </script>
+
+</body>
+</html>
