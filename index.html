@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css">
+<link rel="stylesheet" href="https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css">
+
+
+<title>Happy Birthday</title>
+
+<style>
+:root{
+  --bg1:#aa8ce0;
+  --bg2:#aa8ce0;
+  --p1:#8260c0;
+  --p2:#8260c0;
+  --card: rgba(255,255,255,.65);
+  --stroke: rgba(155,109,255,.25);
+  --shadow: 0 18px 40px rgba(155,109,255,.25);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  /* font-family: 'Pretendard', system-ui, -apple-system, sans-serif; */
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  color:#3a235e;
+  background:
+    radial-gradient(900px 500px at 20% 10%, #8260c0, transparent 60%),
+    radial-gradient(900px 500px at 80% 20%, #8260c0, transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  overflow:hidden;
+}
+
+/* 노이즈 */
+.noise{
+  position:fixed; inset:0;
+  pointer-events:none;
+  opacity:.08;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.wrap{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  width:min(720px,100%);
+  padding:36px 28px 40px;
+  border-radius:28px;
+  background:var(--card);
+  border:1px solid var(--stroke);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+  padding-bottom: 64px;
+}
+
+/* 타이틀 */
+h1{
+  margin:0 0 18px;
+  text-align:center;
+  font-size: clamp(28px, 5vw, 44px);
+  color:#8260c0;
+}
+
+.typing{
+  border-right:2px solid #9b6dff;
+  padding-right:6px;
+  animation: caret .9s step-end infinite;
+}
+@keyframes caret{ 50%{ border-color:transparent; } }
+
+/* 메시지 영역 */
+.messages{
+  font-size: clamp(15px, 3.4vw, 18px);
+  line-height:1.9;
+  margin: 40px 0 28px;
+  max-height: 45vh;
+  overflow-y: auto;
+}
+
+.line{
+  margin-bottom:12px;
+  opacity:0;
+  filter: blur(4px);
+  transform: translateY(10px);
+  animation: softIn .9s ease forwards;
+}
+
+@keyframes softIn{
+  to{
+    opacity:1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* 버튼 */
+.btn{
+  display:block;
+  margin:0 auto;
+  padding:14px 34px;
+  border-radius:22px;
+  border:1px solid #b28cff;
+  background:linear-gradient(180deg, #d9c7ff, #b28cff);
+  color:white;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 10px 28px rgba(155,109,255,.35);
+  transition:.15s ease;
+}
+
+.btn:hover{ transform: translateY(-2px); }
+.btn:active{ transform: translateY(0); }
+
+/* 이펙트 */
+#fxLayer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9999;
+}
+
+.particle{
+  position:absolute;
+  opacity:0;
+  animation: pop 1200ms ease forwards;
+}
+
+@keyframes pop{
+  0%{ opacity:0; transform:scale(.5); }
+  20%{ opacity:1; }
+  100%{ opacity:0; transform:translate(var(--dx), var(--dy)) scale(1.2); }
+}
+
+/* 하단 버튼 영역 */
+.bottom-btn{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translateX(-50%);
+  width:min(720px, calc(100% - 40px));
+  z-index:1000;
+}
+
+/* 버튼은 가로 꽉 차게 */
+.bottom-btn .btn{
+  width:100%;
+  border-radius:26px;
+  padding:18px 0;
+  font-size:17px;
+}
+
+.top-title{
+  position:fixed;
+  top:18px;
+  left:0;
+  width:100%;
+  text-align:center;
+
+  font-family: 'Pretendard', 'SUIT', sans-serif;
+  font-weight:800;
+
+  /* 🔥 반응형 핵심 */
+  font-size: clamp(28px, 8vw, 72px);
+  letter-spacing: clamp(0.12em, 1.2vw, 0.28em);
+
+  text-transform: uppercase;
+  white-space: nowrap; /* 줄바꿈 방지 */
+
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #f1e9ff 25%,
+    #c7a8ff 50%,
+    #f1e9ff 75%,
+    #ffffff 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  opacity: 0.9;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+
+
+</style>
+</head>
+
+<body>
+<div class="noise"></div>
+<div id="fxLayer"></div>
+
+<div class="top-title">
+  HAPPY BIRTHDAY
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <h1><span class="typing" id="typing"></span></h1>
+
+    <div class="messages" id="messages"></div>
+
+    <!-- <button class="btn" id="btn">다음 ✨</button> -->
+  </div>
+</div>
+
+<div class="bottom-btn">
+  <button class="btn" id="btn">다음 ✨</button>
+</div>
+
+<script>
+/* 타이핑 */
+const NAME = "유진아";
+const title = `생일 축하해, ${NAME} 💜`;
+const typingEl = document.getElementById("typing");
+let ti = 0;
+(function type(){
+  typingEl.textContent = title.slice(0, ti++);
+  if(ti <= title.length) requestAnimationFrame(type);
+})();
+
+/* 메시지 */
+const messages = [
+  "안녕?",
+  "생일 너무 너무 축하해 !",
+  "오늘 가장 기분 좋은 하루 보내자, 나랑",
+  "이렇게 타자로 치는 것보다 직접 써주는 걸 더 좋아할 것 같지만",
+  "저번에 맛보기로 보여주었듯 이것도 나름 나의 장점이니까 좋아해줘",
+  "그리고 지금까지 좋았던 추억, 좋지 않았던 추억, 다 겪고 재밌게 보내고, 잘 견뎌왔잖아 우리",
+  "경험을 토대로 올해는 서로 성숙한 우리가 되길 바라",
+  "옛날에도 얘기한 적 있었지만, 나의 말이나 행동으로 서운하게 느낄 수 있어",
+  "미워해서 그러는거 아니야 내 마음 속 1등은 너야",
+  "난 유진이랑 같이 있는 시간이 가장 좋고 재밌고 소중해",
+  "나 많이 배려해주고 생각해주는거 알아",
+  "앞으로도 잘 부탁해",
+  "나도 그만큼 보답할게",
+  "생일 진심으로 축하해.",
+  "사랑해요💜",
+];
+
+let idx = 0;
+const box = document.getElementById("messages");
+const btn = document.getElementById("btn");
+const fx = document.getElementById("fxLayer");
+
+btn.addEventListener("click", () => {
+  // if(idx >= messages.length) return;
+
+  const line = document.createElement("div");
+  line.className = "line";
+  line.textContent = messages[idx++];
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+
+  burst(innerWidth/2, innerHeight/2, idx === messages.length ? 28 : 10);
+});
+
+function burst(x,y,count){
+  for(let i=0;i<count;i++){
+    const p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = x+"px";
+    p.style.top = y+"px";
+    p.style.setProperty("--dx",(Math.random()*260-130)+"px");
+    p.style.setProperty("--dy",(Math.random()*260-130)+"px");
+    p.innerHTML = "💜";
+    fx.appendChild(p);
+    p.addEventListener("animationend",()=>p.remove());
+  }
+}
+</script>
+</body>
+</html>
